@@ -46,5 +46,14 @@ Route::post('/contact/submit', function (Request $request) {
     return redirect('/contact')->with('success', 'Bedankt voor uw bericht!');
 });
 
-Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+use App\Http\Controllers\CartController;
+
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
+Route::post('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
+Route::post('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
 
