@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,14 +48,17 @@ Route::post('/contact/submit', function (Request $request) {
     return redirect('/contact')->with('success', 'Bedankt voor uw bericht!');
 });
 
+// Authentication routes
 Auth::routes();
 
+// Dashboard/Home route after login
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-use App\Http\Controllers\CartController;
-
+// Cart routes
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
 Route::post('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
 Route::post('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
 
+// Product CRUD routes
+Route::resource('producten', ProductController::class);

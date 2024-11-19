@@ -1,50 +1,35 @@
-<!-- resources/views/producten.blade.php -->
-<!DOCTYPE html>
-<html lang="nl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Producten</title>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-</head>
-<body>
-    <div class="container">
-        <h1>Onze Producten</h1>
+@extends('layouts.app')
 
-        <div class="product">
-            <h2>Herbruikbare Waterfles</h2>
-            <img src="{{ asset('img/image (4).png') }}" alt="Herbruikbare Waterfles">
-            <p>Prijs: €15,00</p>
-            <p>Een roestvrijstalen waterfles die isolatie biedt, waardoor je dranken koud of warm blijven. Lekvrij en BPA-vrij.</p>
-        </div>
-
-        <div class="product">
-            <h2>Katoenen Boodschappentas</h2>
-            <img src="{{ asset('img/image (3).png') }}" alt="Katoenen Boodschappentas">
-            <p>Prijs: €8,00</p>
-            <p>Een stevige katoenen tas, herbruikbaar en wasbaar, perfect voor je boodschappen.</p>
-        </div>
-
-        <div class="product">
-            <h2>Siliconen Rietjes (set van 6)</h2>
-            <img src="{{ asset('img/image (2).png') }}" alt="Siliconen Rietjes">
-            <p>Prijs: €10,00</p>
-            <p>Set van 6 herbruikbare siliconen rietjes, inclusief schoonmaakborstel.</p>
-        </div>
-
-        <div class="product">
-            <h2>Lunchbox van Roestvrij Staal</h2>
-            <img src="{{ asset('img/image (1).png') }}" alt="Lunchbox">
-            <p>Prijs: €20,00</p>
-            <p>Duurzame lunchbox met meerdere compartimenten, ideaal voor je maaltijden.</p>
-        </div>
-
-        <div class="product">
-            <h2>Herbruikbare Koffiebeker</h2>
-            <img src="{{ asset('img/image.png') }}" alt="Koffiebeker">
-            <p>Prijs: €12,50</p>
-            <p>Stijlvolle, isolerende koffiebeker, gemaakt van gerecycled materiaal.</p>
-        </div>
-    </div>
-</body>
-</html>
+@section('content')
+<div class="container">
+    <h1>Products</h1>
+    <a href="{{ route('producten.create') }}" class="btn btn-primary">Add Product</a>
+    <table class="table mt-3">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($products as $product)
+            <tr>
+                <td>{{ $product->name }}</td>
+                <td>€{{ $product->price }}</td>
+                <td>{{ $product->quantity }}</td>
+                <td>
+                    <a href="{{ route('producten.edit', $product->id) }}" class="btn btn-warning">Edit</a>
+                    <form action="{{ route('producten.destroy', $product->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+@endsection
